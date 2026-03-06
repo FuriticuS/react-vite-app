@@ -1,27 +1,44 @@
 import {useEffect, useState} from 'react'
 import './App.css'
 
-type Tracks = {
-  id: number,
+type TrackUser = {
+  id: string,
+  name: string
+}
+
+type TrackAttributes = {
   title: string,
+  user: TrackUser,
+  attachments: TrackAttachments[]
+}
+
+type TrackAttachments = {
+  id: string,
+  addedAt: string,
+  updatedAt: string,
+  version: number,
   url: string,
 }
 
-const tracksMusic = [
-  {
-    id: 1,
-    title: 'One track',
-    url: 'https://www.google.com/',
-  }
-]
+type Tracks = {
+  id: string,
+  attributes: TrackAttributes,
+  attachments: TrackAttachments
+}
 
 export function App() {
   const [tracks, setTracks] = useState<Tracks[] | null>(null)
 
   useEffect(() => {
-    setTimeout(() => {
-      setTracks(tracksMusic)
-    }, 1000)
+    fetch(`https://musicfun.it-incubator.app/api/1.0/playlists/tracks`, {
+      headers: {
+        'api-key': 'be114072-4e9d-4dfa-9bbb-23bfd7a4e3b1'
+      }
+    })
+      .then(result => result.json())
+      .then(json => {
+        setTracks(json.data)
+      })
   },[])
 
   return (
@@ -32,8 +49,8 @@ export function App() {
       <ul>
         {tracks?.map(track => {
           return <li key={track.id}>
-            <h5>{track.title}</h5>
-            <audio src={track.url} controls={true}></audio>
+            <h5>{track.attributes.title}</h5>
+            <audio src={track.attachments.url} controls={true}></audio>
           </li>
         })}
       </ul>
