@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {type CSSProperties, useEffect, useState} from 'react'
 import './App.css'
 
 type TrackUser = {
@@ -28,6 +28,7 @@ type Tracks = {
 
 export function App() {
   const [tracks, setTracks] = useState<Tracks[] | null>(null)
+  const [selectedTrackId, setselectedTrackId] = useState<string | null>(null)
 
   useEffect(() => {
     fetch(`https://musicfun.it-incubator.app/api/1.0/playlists/tracks`, {
@@ -48,9 +49,14 @@ export function App() {
       {tracks?.length === 0 && <span>Треков Нет</span>}
       <ul>
         {tracks?.map(track => {
-          return <li key={track.id}>
-            <h5>{track.attributes.title}</h5>
-            <audio src={track.attachments.url} controls={true}></audio>
+          const style: CSSProperties = {}
+          if(track.id === selectedTrackId) {
+            style.border = '1px solid orange'
+          }
+
+          return <li key={track.id} style={style}>
+            <h5 onClick={() => setselectedTrackId(track.id)}>{track.attributes.title}</h5>
+            <audio src={track.attributes.attachments[0].url} controls={true}></audio>
           </li>
         })}
       </ul>
