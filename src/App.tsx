@@ -102,7 +102,8 @@ export function App() {
       </ul>
       <hr/>
       {selectedTrackId && !selectedTrack && <span>Loading...</span>}
-      {selectedTrack && <div>
+      {selectedTrackId && selectedTrack && selectedTrack.id !== selectedTrackId&& <span>Loading...</span>}
+      {selectedTrack && selectedTrack.id === selectedTrackId && <div>
         <h3>Track Details for {selectedTrack.attributes.title}</h3>
         {selectedTrack?.attributes?.images?.main?.[0]?.url?.trim()
           ? (
