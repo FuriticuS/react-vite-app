@@ -1,5 +1,5 @@
-import {type CSSProperties, useEffect, useState} from "react";
-import type {Tracks} from "../../types/track.ts";
+import {type CSSProperties} from "react";
+import {useTracks} from "../../../bll/useTracks.ts";
 
 type Props = {
   selectedTrackId: string | null,
@@ -7,20 +7,7 @@ type Props = {
 }
 
 export function PlayList(props: Props) {
-  // Загрузка всех треков
-  const [tracks, setTracks] = useState<Tracks[] | null>(null)
-  // Загрузка всех треков
-  useEffect(() => {
-    fetch(`https://musicfun.it-incubator.app/api/1.0/playlists/tracks?pageSize=5`, {
-      headers: {
-        'api-key': 'be114072-4e9d-4dfa-9bbb-23bfd7a4e3b1'
-      }
-    })
-      .then(result => result.json())
-      .then(json => {
-        setTracks(json.data)
-      })
-  }, [])
+  const {tracks} = useTracks()
 
   return (
     <div>

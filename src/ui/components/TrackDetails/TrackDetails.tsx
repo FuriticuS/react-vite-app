@@ -1,26 +1,11 @@
-import {useEffect, useState} from "react";
-import type {TrackDetailsResource} from "../../types/track.ts";
+import {useTrackDetails} from "../../../bll/useTrackDetails.ts";
 
 type Props = {
   selectedTrackId: string | null;
 }
 
 export function TrackDetails(props: Props) {
-  const [selectedTrack, setSelectedTrack] = useState<TrackDetailsResource | null>(null)
-
-  useEffect(() => {
-    if(!props.selectedTrackId) return;
-
-    fetch(`https://musicfun.it-incubator.app/api/1.0/playlists/tracks/` + props.selectedTrackId, {
-      headers: {
-        'api-key': 'be114072-4e9d-4dfa-9bbb-23bfd7a4e3b1'
-      }
-    })
-      .then(result => result.json())
-      .then(json => {
-        setSelectedTrack(json.data)
-      })
-  }, [props.selectedTrackId])
+  const {selectedTrack} = useTrackDetails(props.selectedTrackId)
 
   return (
     <div>

@@ -1,5 +1,5 @@
 import './App.css'
-import MainPage from "./MainPage/MainPage.tsx";
+import MainPage from "./ui/MainPage/MainPage.tsx";
 
 export function App() {
 
