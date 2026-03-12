@@ -1,5 +1,6 @@
 import type {CSSProperties} from "react";
 import type {Tracks} from "../../../dal/types/track.ts";
+import styles from './TrackItem.module.css'
 
 type Props = {
   track: Tracks,
@@ -18,7 +19,7 @@ export function TrackItem(props: Props) {
   }
 
   return (
-    <li style={style}>
+    <li style={style} className={props.isSelected ? styles.selected : ''}>
       <h5 onClick={handleSelect}>{props.track.attributes.title}</h5>
       <audio src={props.track.attributes.attachments[0].url} controls={true}></audio>
     </li>
