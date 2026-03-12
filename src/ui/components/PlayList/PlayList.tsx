@@ -1,5 +1,5 @@
-import {type CSSProperties} from "react";
 import {useTracks} from "../../../bll/useTracks.ts";
+import {TrackItem} from "../TrackItem/TrackItem.tsx";
 
 type Props = {
   selectedTrackId: string | null,
@@ -15,19 +15,11 @@ export function PlayList(props: Props) {
       {tracks?.length === 0 && <span>Треков Нет</span>}
       <ul>
         {tracks?.map(track => {
-          const style: CSSProperties = {}
-          if (track.id === props.selectedTrackId) {
-            style.border = '1px solid orange'
-          }
-
-          const handleSelect = () => {
-            props.onTrackSelect(track.id)
-          }
-
-          return <li key={track.id} style={style}>
-            <h5 onClick={handleSelect}>{track.attributes.title}</h5>
-            <audio src={track.attributes.attachments[0].url} controls={true}></audio>
-          </li>
+          return <TrackItem
+            key={track.id}
+            track={track}
+            isSelected={track.id === props.selectedTrackId}
+            onTrackSelect={props.onTrackSelect}/>
         })}
       </ul>
     </div>
